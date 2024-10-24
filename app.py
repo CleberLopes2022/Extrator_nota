@@ -1,5 +1,5 @@
 import streamlit as st
-import PyPDF2
+import PyPDF
 import re
 
 def extract_nf_key(pdf_file):
