@@ -1,10 +1,10 @@
 import streamlit as st
-import pypdf
+import pypdf 
 import re
 
 def extract_nf_key(pdf_file):
     # Lê o arquivo PDF
-    reader = PyPDF2.PdfReader(pdf_file)
+    reader = pypdf.PdfReader(pdf_file)
     key = None
     
     # Procura pela chave da nota fiscal no texto das páginas
@@ -28,17 +28,19 @@ uploaded_file = st.file_uploader("Escolha um arquivo PDF", type="pdf")
 
 if uploaded_file is not None:
     # Extrai a chave da nota fiscal
-    nf_key = extract_nf_key(uploaded_file)
-    
-    if nf_key:
-        st.success("Chave da Nota Fiscal extraída com sucesso!")
+    try:
+        nf_key = extract_nf_key(uploaded_file)
         
-        # Exibe a chave da nota fiscal em um campo de entrada para facilitar a cópia
-        st.text_input("Selecione a chave abaixo e pressione Ctrl+C para copiá-la", value=nf_key)
-        
-        st.info("Selecione o texto acima e use Ctrl+C para copiar")
-    else:
-        st.error("Chave da Nota Fiscal não encontrada no documento.")
-
+        if nf_key:
+            st.success("Chave da Nota Fiscal extraída com sucesso!")
+            
+            # Exibe a chave da nota fiscal em um campo de entrada para facilitar a cópia
+            st.text_input("Selecione a chave abaixo e pressione Ctrl+C para copiá-la", value=nf_key)
+            
+            st.info("Selecione o texto acima e use Ctrl+C para copiar")
+        else:
+            st.error("Chave da Nota Fiscal não encontrada no documento.")
+    except Exception as e:
+        st.error(f"Erro ao processar o arquivo: {e}")
 
 
